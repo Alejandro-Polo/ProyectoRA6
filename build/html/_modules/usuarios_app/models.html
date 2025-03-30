@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+
+<html lang="es" data-content_root="../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>usuarios_app.models &#8212; documentación de RA6Documentacion - </title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=4f649999" />
+    <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css?v=cb25574f" />
+    <script src="../../_static/documentation_options.js?v=e2bb6099"></script>
+    <script src="../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/translations.js?v=efdbd0b9"></script>
+    <link rel="index" title="Índice" href="../../genindex.html" />
+    <link rel="search" title="Búsqueda" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Código fuente para usuarios_app.models</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">django.contrib.auth.models</span> <span class="kn">import</span> <span class="n">AbstractUser</span><span class="p">,</span> <span class="n">Group</span><span class="p">,</span> <span class="n">Permission</span>
+<span class="kn">from</span> <span class="nn">django.db</span> <span class="kn">import</span> <span class="n">models</span>
+
+
+<div class="viewcode-block" id="Usuario">
+<a class="viewcode-back" href="../../usuarios_app.html#usuarios_app.forms.Usuario">[documentos]</a>
+<span class="k">class</span> <span class="nc">Usuario</span><span class="p">(</span><span class="n">AbstractUser</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Modelo que representa a un usuario en la plataforma.</span>
+
+<span class="sd">    Atributos:</span>
+<span class="sd">        - rol (str): Define el rol del usuario en el sistema (menor, persona con depresión, psicólogo, admin).</span>
+<span class="sd">        - anonimo (bool): Indica si el usuario desea permanecer anónimo.</span>
+<span class="sd">        - groups (ManyToManyField): Relación con los grupos de Django.</span>
+<span class="sd">        - user_permissions (ManyToManyField): Permisos personalizados del usuario.</span>
+
+<span class="sd">    Hereda:</span>
+<span class="sd">        AbstractUser: Utiliza el modelo de usuario de Django para autenticación.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">ROLES</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">(</span><span class="s1">&#39;menor&#39;</span><span class="p">,</span> <span class="s1">&#39;Menor afectado por bullying&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;depresion&#39;</span><span class="p">,</span> <span class="s1">&#39;Persona con depresión&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;psicologo&#39;</span><span class="p">,</span> <span class="s1">&#39;Psicólogo / Voluntario&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;admin&#39;</span><span class="p">,</span> <span class="s1">&#39;Administrador&#39;</span><span class="p">),</span>
+    <span class="p">]</span>
+    <span class="n">rol</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">choices</span><span class="o">=</span><span class="n">ROLES</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;menor&#39;</span><span class="p">)</span>
+    <span class="n">anonimo</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">BooleanField</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># Para menores que quieran anonimato</span>
+
+    <span class="c1"># Evitar colisión con auth.User</span>
+    <span class="n">groups</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ManyToManyField</span><span class="p">(</span><span class="n">Group</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s2">&quot;usuarios_groups&quot;</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">user_permissions</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ManyToManyField</span><span class="p">(</span><span class="n">Permission</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s2">&quot;usuarios_permissions&quot;</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">RA6Documentacion</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navegación</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Código de módulo</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Búsqueda rápida</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Ir a" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2025, AlejandroPOloBArranco.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.2.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>
